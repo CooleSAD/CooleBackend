@@ -1,7 +1,8 @@
+from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import status
 from rest_framework.permissions import (IsAuthenticated)
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
 
 from events.models import Event
 from events.serializers import EventSerializer
@@ -29,9 +30,19 @@ class UserEventListView(APIView):
 class EventEnrollView(APIView):
     permission_classes = (IsAuthenticated,)
 
+    def get(self, request, pk):
+        user = Token.objects.get(key=request.auth).user
+        return Response({
+            "has_enrolled": user.event_set.filter(pk=pk).exists()
+        })
+
     def post(self, request, pk):
         user = Token.objects.get(key=request.auth).user
         event = Event.objects.get(pk=pk)
+        if not user.profile.is_completed or user.profile.gender != event.gender:
+            return Response({
+                'success': False
+            }, status=status.HTTP_406_NOT_ACCEPTABLE)
         event.participants.add(user)
         return Response({
             'success': True
