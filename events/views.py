@@ -12,7 +12,7 @@ class EventsListView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        events = Event.objects.all()
+        events = Event.objects.all().order_by('-date')
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
@@ -22,7 +22,7 @@ class UserEventListView(APIView):
 
     def get(self, request):
         user = Token.objects.get(key=request.auth).user
-        user_events = user.event_set.all()
+        user_events = user.event_set.all().order_by('-date')
         serializer = EventSerializer(user_events, many=True)
         return Response(serializer.data)
 
@@ -46,4 +46,16 @@ class EventEnrollView(APIView):
         event.participants.add(user)
         return Response({
             'success': True
+        })
+
+    def delete(self, request, pk):
+        user = Token.objects.get(key=request.auth).user
+        event = Event.objects.get(pk=pk)
+        if user.event_set.filter(pk=pk).exists():
+            event.participants.remove(user)
+            return Response({
+                'success': True
+            })
+        return Response({
+            'success': False
         })
