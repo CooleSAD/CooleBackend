@@ -10,6 +10,7 @@ class Property(models.Model):
     image = models.ImageField(upload_to='media/')
     state = models.CharField(choices=STATE_CHOICES, max_length=1)
     borrower = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    price = models.IntegerField(default=1000)
 
     def __str__(self):
         return self.kind + ": " + self.name
