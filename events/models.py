@@ -19,3 +19,14 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Cost(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    cost = models.IntegerField()
+
+    def __str__(self):
+        return self.cost
+
+
