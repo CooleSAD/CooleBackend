@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class NeedsConfig(AppConfig):
+class PropertiesConfig(AppConfig):
     name = 'needs'
