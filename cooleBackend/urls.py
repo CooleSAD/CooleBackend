@@ -23,11 +23,9 @@ urlpatterns = [
 
     path('auth/', include('djoser.urls.base')),
     path('auth/', include('djoser.urls.authtoken')),
-
     path('', include('users.urls')),
-
     path('', include('events.urls')),
-
-    path('', include('properties.urls'))
+    path('', include('properties.urls')),
+    path('', include('needs.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

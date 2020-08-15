@@ -22,8 +22,8 @@ class Event(models.Model):
 
 
 class Cost(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True, default=None)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
     cost = models.IntegerField()
 
     def __str__(self):
