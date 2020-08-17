@@ -24,9 +24,10 @@ class Event(models.Model):
 class Cost(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
-    cost = models.IntegerField()
+    description = models.CharField(max_length=200, default=None, blank=True)
+    amount = models.IntegerField()
 
     def __str__(self):
-        return self.cost
+        return Event.objects.get(pk=self.event.id).name + "-" + self.description
 
 
