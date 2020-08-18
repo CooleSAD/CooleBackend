@@ -84,12 +84,12 @@ class EventCostsView(APIView):
             'user': user.id,
             'event': event.id,
             'description': request.data['description'],
-            'cost': request.data['cost']
+            'amount': request.data['amount']
         }
         serializer = CostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'success': True}, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response({'success': False}, status=status.HTTP_400_BAD_REQUEST)
 
 
