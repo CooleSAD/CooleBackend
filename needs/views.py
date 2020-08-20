@@ -24,12 +24,15 @@ class NeedsListView(APIView):
     def post(self, request):
 
         user = Token.objects.get(key=request.auth).user
-        data = {
-            'user': user.id,
-            'text': request.data['text'],
-            'contact': request.data['contact'],
-            'is_handled': False
-        }
+        try:
+            data = {
+                'user': user.id,
+                'text': request.data['text'],
+                'contact': request.data['contact'],
+                'is_handled': False
+            }
+        except KeyError:
+            return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
         serializer = NeedSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -53,13 +56,3 @@ class NeedView(APIView):
         return Response({
             'success': True
         })
-
-
-# class UserNeedsListView(APIView):
-#     permission_classes = (IsAuthenticated,)
-#
-#     def get(self, request):
-#         user = Token.objects.get(key=request.auth).user
-#         user_properties = user.need_set.all()
-#         serializer = NeedSerializer(user_properties, many=True)
-#         return Response(serializer.data)

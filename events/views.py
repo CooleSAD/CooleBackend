@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import status
 from rest_framework.permissions import (IsAuthenticated)
@@ -5,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from events.models import Event, Cost
-from django.db.models import Sum
 from events.serializers import EventSerializer, CostSerializer
 
 
@@ -115,4 +115,3 @@ class UserEventCosts(APIView):
             return Response({'success': False}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CostSerializer(Cost.objects.filter(event=event.id, user=user.id), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
