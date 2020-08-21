@@ -9,7 +9,7 @@ class Event(models.Model):
     length = models.IntegerField()
     date = models.DateField()
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
-    image = models.ImageField(upload_to='media/')
+    image = models.ImageField(upload_to='media/', blank=True)
     participants = models.ManyToManyField(CustomUser, blank=True)
     description = models.TextField(max_length=200)
     coordination_date = models.DateField()

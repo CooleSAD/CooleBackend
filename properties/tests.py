@@ -40,7 +40,6 @@ class UserPropertiesListTest(TestCase):
         Token.objects.create(user=self.user)
 
     def test_get_my_properties(self):
-
         # test unauthenticated
         response = client.get(reverse(f"properties/{self.user.id}"))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -79,13 +78,13 @@ class ReservePropertyTest(TestCase):
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
         # reserve confirmed
-        response = client.get(reverse(f"properties/{self.property_three.id}"))
+        response = client.post(reverse(f"properties/{self.property_three.id}"))
         self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
 
         # reserve reserved good
-        response = client.get(reverse(f"properties/{self.property_two.id}"))
+        response = client.post(reverse(f"properties/{self.property_two.id}"))
         self.assertEqual(response.status_code, status.HTTP_406_NOT_ACCEPTABLE)
 
         # reserve free good
-        response = client.get(reverse(f"properties/{self.property_one.id}"))
+        response = client.post(reverse(f"properties/{self.property_one.id}"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
