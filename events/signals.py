@@ -9,4 +9,4 @@ from cooleBackend import notification
 def send_notification(sender, instance, created, **kwargs):
     if created:
         notification_message = "رویداد جدید : " + instance.name
-        notification.send_push_message(token="ExponentPushToken[ggWzVsP7TQN65JoyQ0vUFT]", message=notification_message)
+        # notification.send_push_message(token="ExponentPushToken[ggWzVsP7TQN65JoyQ0vUFT]", message=notification_message)

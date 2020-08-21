@@ -20,12 +20,12 @@ class MyProfileViewTest(TestCase):
 
     def test_my_profile_view(self):
         # test not authenticated user
-        response = client.get(reverse("users/me"))
+        response = client.get(reverse("user_profile"))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         # test authenticated user
         client.login(email="test@test.com", password="12345")
         token = Token.objects.get(user__email="test@test.com")
         client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        response = client.get(reverse("users/me"))
+        response = client.get(reverse("user_profile"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
